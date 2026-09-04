@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: qbl-obstetrico-avico
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .

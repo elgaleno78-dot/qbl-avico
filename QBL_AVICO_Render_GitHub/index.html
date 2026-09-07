@@ -433,6 +433,28 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
 #adminLock h3{margin:0 0 10px}
 #adminLock label{margin-bottom:6px}
 
+
+/* v15 — acordeón accesible */
+.accordion-card{padding-bottom:0;overflow:hidden}
+.accordion-card>h2{
+  position:relative;cursor:pointer;user-select:none;
+  padding-right:54px!important;margin-bottom:0!important;outline:none
+}
+.accordion-card>h2::after{
+  content:"＋";position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;display:grid;place-items:center;border-radius:50%;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+  font-size:1.15rem;font-weight:800
+}
+.accordion-card.open>h2::after{content:"−"}
+.accordion-card>.accordion-body{display:none;padding:16px 0 18px}
+.accordion-card.open>.accordion-body{display:block}
+.accordion-card>h2:focus-visible{box-shadow:inset 0 0 0 3px rgba(255,255,255,.78)}
+@media(max-width:700px){
+  .accordion-card>h2{font-size:1rem!important;padding-top:14px!important;padding-bottom:14px!important}
+  .accordion-card>.accordion-body{padding-top:14px}
+}
+
 </style>
 </head>
 <body>
@@ -446,7 +468,7 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     <a href="#hemo"><b>♥</b><span>Hemodinámica</span></a>
     <a href="#liquidos"><b>▣</b><span>Líquidos</span></a>
     <a href="#resultados"><b>▤</b><span>Resultados</span></a>
-    <a href="#qrCard"><b>▧</b><span>Compartir / QR</span></a>
+    <a href="#qrCard"><b>▧</b><span>Compartir esta app</span></a>
   </nav>
   <div class="codeMater">⚠ <span>CÓDIGO MATER</span></div>
   <div class="sideDisclaimer">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
@@ -478,8 +500,9 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
   <small id="alertDetail">Ingresa signos vitales y sangrado para iniciar la evaluación.</small>
 </div>
 
-<section class="card" id="datos">
-  <h2>1. Datos maternos y volumen circulante</h2>
+<section class="card accordion-card" id="datos">
+  <h2>1. Datos de la paciente y volumen circulante</h2>
+<div class="accordion-body">
   <p class="sub">El prototipo compara estimaciones. La ecuación derivada de Vricella es una regresión de investigación y no sustituye medición directa.</p>
   <div class="grid">
     <div><label>Talla (cm)</label><input id="height" type="number" inputmode="decimal" placeholder="Ej. 160"></div>
@@ -512,12 +535,14 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     </tbody>
   </table>
   </div>
+</div>
 </section>
 
-<section class="card" id="hemo">
+<section class="card accordion-card" id="hemo">
   <h2>2. Estado hemodinámico</h2>
+<div class="accordion-body">
   <div class="grid3">
-    <div><label>Frecuencia cardiaca (lpm)</label><input id="hr" type="number" inputmode="numeric" placeholder="Ej. 110"></div>
+    <div><label>Pulso (lpm)</label><input id="hr" type="number" inputmode="numeric" placeholder="Ej. 110"></div>
     <div><label>TA sistólica (mmHg)</label><input id="sbp" type="number" inputmode="numeric" placeholder="Ej. 95"></div>
     <div><label>TA diastólica (mmHg)</label><input id="dbp" type="number" inputmode="numeric" placeholder="Ej. 60"></div>
   </div>
@@ -534,10 +559,12 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     <div class="kpi"><small>WHO: TAD &lt;60</small><strong id="whoDbp">—</strong></div>
   </div>
   <div class="note" style="margin-top:10px"><b>WHO 2025:</b> para HPP posparto, el criterio de acción temprana es pérdida objetivamente medida ≥300 mL con cualquier signo hemodinámico anormal (FC &gt;100, índice de choque &gt;1, TAS &lt;100 o TAD &lt;60), o pérdida objetivamente medida ≥500 mL, lo que ocurra primero dentro de las primeras 24 h. La app usa sólo QBL objetivamente medido para este criterio.</div>
+</div>
 </section>
 
-<section class="card" id="sangrado">
-  <h2>3. Sangrado pesado / cuantificado</h2>
+<section class="card accordion-card" id="sangrado">
+  <h2>3. Sangrado medido</h2>
+<div class="accordion-body">
   <p class="sub">Registra cada compresa, gasa, campo u otro material <b>uno por uno</b>. Cada medición se suma automáticamente al QBL acumulado. Para textiles: 1 g ≈ 1 mL de sangre.</p>
   <div class="note" style="margin-bottom:10px"><b>Flujo rápido:</b> selecciona material → indica cantidad → peso seco por unidad → peso húmedo total → <b>Agregar medición</b>. Puedes borrar una medición si se capturó por error.</div>
 
@@ -565,19 +592,23 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     <button class="ghost" id="clearMeasuresBtn" type="button">Limpiar mediciones de esta paciente</button>
     <button class="primary" id="saveDryBtn" type="button">Guardar peso seco de este material</button>
   </div>
+</div>
 </section>
 
-<section class="card" id="estimado">
-  <h2>4. Sangrado no cuantificado</h2>
+<section class="card accordion-card" id="estimado">
+  <h2>4. Sangrado estimado</h2>
+<div class="accordion-body">
   <p class="sub">Regístralo por separado para distinguir QBL medido de pérdida estimada.</p>
   <div class="grid">
     <div><label>Sangrado estimado adicional (mL)</label><input id="estimatedBlood" type="number" min="0" value="0" placeholder="Ej. 350"></div>
     <div><label>Motivo / contexto</label><input id="estimatedReason" type="text" placeholder="Ej. traslado, piso, emergencia"></div>
   </div>
+</div>
 </section>
 
-<section class="card" id="liquidos">
-  <h2>5. Ingresos y egresos</h2>
+<section class="card accordion-card" id="liquidos">
+  <h2>5. Líquidos administrados y egresos</h2>
+<div class="accordion-body">
   <div class="grid">
     <div><label>Cristaloides (mL)</label><input id="crystalloids" type="number" min="0" value="0"></div>
     <div><label>Concentrado eritrocitario (mL)</label><input id="rbc" type="number" min="0" value="0"></div>
@@ -586,10 +617,12 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     <div><label>Otros ingresos (mL)</label><input id="otherIn" type="number" min="0" value="0"></div>
     <div><label>Otros egresos (mL)</label><input id="otherOut" type="number" min="0" value="0"></div>
   </div>
+</div>
 </section>
 
-<section class="card" id="resultados">
+<section class="card accordion-card" id="resultados">
   <h2>6. Resumen dinámico</h2>
+<div class="accordion-body">
   <div id="whoPphBox" class="alert green" style="margin:0 0 12px">
     Criterio WHO de HPP: NO EVALUABLE
     <small id="whoPphDetail">Ingresa QBL y signos vitales.</small>
@@ -606,8 +639,8 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     <tbody>
       <tr><td>Volumen circulante estimado seleccionado</td><td id="summaryEbv" class="mono">—</td></tr>
       <tr><td>Volumen circulante teórico restante</td><td id="remainingBV" class="mono">—</td></tr>
-      <tr><td>Ingresos totales</td><td id="inputsTotal" class="mono">0 mL</td></tr>
-      <tr><td>Egresos totales (sangrado + diuresis + otros)</td><td id="outputsTotal" class="mono">0 mL</td></tr>
+      <tr><td>Líquidos administrados totales</td><td id="inputsTotal" class="mono">0 mL</td></tr>
+      <tr><td>Líquidos eliminados totales (sangrado + diuresis + otros)</td><td id="outputsTotal" class="mono">0 mL</td></tr>
       <tr><td>Balance simple ingresos − egresos</td><td id="balance" class="mono">0 mL</td></tr>
     </tbody>
   </table>
@@ -621,10 +654,12 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     <div class="threshold"><small>30%</small><strong id="t30">—</strong></div>
   </div>
   <div class="note" style="margin-top:10px"><b>No representan “sangrado seguro”.</b> Son referencias porcentuales para visualizar qué proporción del volumen estimado ha sido perdida. El estado hemodinámico tiene prioridad sobre cualquier cifra aislada.</div>
+</div>
 </section>
 
-<section class="card" id="pacientes">
+<section class="card accordion-card" id="pacientes">
   <h2>7. Guardar paciente / Expedientes del autor</h2>
+<div class="accordion-body">
   <div class="grid">
     <div><label>Paciente / identificador</label><input id="patientId" type="text" placeholder="Iniciales, folio o expediente"></div>
     <div><label>Observaciones</label><input id="notes" type="text" placeholder="Comentario breve"></div>
@@ -657,10 +692,12 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
     </div>
     <div class="saved-patients" id="savedPatients"></div>
   </div>
+</div>
 </section>
 
-<section class="card" id="qrCard">
+<section class="card accordion-card" id="qrCard">
   <h2>8. Compartir / instalar QBL AVICO</h2>
+<div class="accordion-body">
   <p class="sub">El QR se genera con la dirección actual de la aplicación. Cuando esté publicada en una URL HTTPS, al escanearlo abrirá directamente QBL AVICO.</p>
 
   <div style="display:grid;grid-template-columns:minmax(220px,320px) 1fr;gap:16px;align-items:center">
@@ -682,6 +719,7 @@ body:after{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,248,
       </div>
     </div>
   </div>
+</div>
 </section>
 
 <div class="footer">
@@ -987,6 +1025,61 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
 loadDryWeights();
 refreshQR();
 recalc();
+
+// v15 — solo una sección abierta a la vez
+function initAccordion(){
+  const cards = Array.from(document.querySelectorAll('.accordion-card'));
+  function closeAll(){
+    cards.forEach(c=>{
+      c.classList.remove('open');
+      const h=c.querySelector(':scope > h2');
+      if(h) h.setAttribute('aria-expanded','false');
+    });
+  }
+  cards.forEach((card,index)=>{
+    const title=card.querySelector(':scope > h2');
+    const body=card.querySelector(':scope > .accordion-body');
+    if(!title || !body) return;
+    body.id = body.id || `accordionBody${index}`;
+    title.setAttribute('role','button');
+    title.setAttribute('tabindex','0');
+    title.setAttribute('aria-controls',body.id);
+    title.setAttribute('aria-expanded',index===0?'true':'false');
+    if(index===0) card.classList.add('open');
+
+    const activate=()=>{
+      const willOpen=!card.classList.contains('open');
+      closeAll();
+      if(willOpen){
+        card.classList.add('open');
+        title.setAttribute('aria-expanded','true');
+        setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'start'}),30);
+      }
+    };
+    title.addEventListener('click',activate);
+    title.addEventListener('keydown',e=>{
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        activate();
+      }
+    });
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(link=>{
+    link.addEventListener('click',()=>{
+      const id=link.getAttribute('href').slice(1);
+      const target=document.getElementById(id);
+      if(target && target.classList.contains('accordion-card')){
+        closeAll();
+        target.classList.add('open');
+        const h=target.querySelector(':scope > h2');
+        if(h) h.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded',initAccordion);
+
 </script>
 </body>
 </html>
